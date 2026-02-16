@@ -69,7 +69,8 @@
       chip.setAttribute("data-link-id", linkId);
 
       var sr = getRect(chip);
-      var tr = getRect(target);
+      var targetNode = target.querySelector(".node") || target;
+      var tr = getRect(targetNode);
 
       var sx = sr.right + 6;
       var sy = sr.midY;
@@ -89,8 +90,9 @@
   }
 
   function clearActive() {
+    wrapper.classList.remove("dim-others");
     svg.querySelectorAll("path.is-active").forEach(function (p) { p.classList.remove("is-active"); });
-    wrapper.querySelectorAll(".is-target").forEach(function (el) { el.classList.remove("is-target"); });
+    wrapper.querySelectorAll(".node.is-target, .node.is-source").forEach(function (el) { el.classList.remove("is-target", "is-source"); });
   }
 
   wrapper.addEventListener("pointerover", function (e) {
@@ -101,12 +103,16 @@
     if (!target) return;
 
     clearActive();
+    wrapper.classList.add("dim-others");
     var linkId = chip.getAttribute("data-link-id");
     var path = linkId
       ? svg.querySelector('path[data-from="' + CSS.escape(linkId) + '"]')
       : svg.querySelector('path[data-to="' + CSS.escape(targetId) + '"]');
     if (path) path.classList.add("is-active");
-    target.classList.add("is-target");
+    var targetNode = target.querySelector(".node") || target;
+    targetNode.classList.add("is-target");
+    var sourceNode = chip.closest(".node");
+    if (sourceNode) sourceNode.classList.add("is-source");
   });
 
   wrapper.addEventListener("pointerout", function (e) {

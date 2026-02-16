@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
+<body class="crosslinks-hidden">
   <div class="wrap">
     <header>
       <div>
@@ -21,7 +21,7 @@
         <span class="pill"><span class="dot" style="background:var(--accent-2)"></span>Governance Control</span>
         <span class="pill"><span class="dot" style="background:var(--accent-3)"></span>Operational Efficiency</span>
         <label class="pill pill-toggle">
-          <input type="checkbox" id="crosslinks-toggle" checked aria-label="Show cross-links between streams" />
+          <input type="checkbox" id="crosslinks-toggle" aria-label="Show cross-links between streams" />
           <span>Show cross-links</span>
         </label>
       </div>
@@ -42,18 +42,26 @@
             <div class="label">Features <span class="badge">what exists</span></div>
             <ul>
               <li>
-                KV assessments (assessment-first option)
-                <span class="link-chips">
-                  <button class="link-chip" type="button" data-link="s2-mech-2" data-color="--accent-2">→ Gov. Control</button>
-                </span>
+                <div class="node">
+                  <span class="node-text">KV assessments (assessment-first option)</span>
+                  <span class="link-chips">
+                    <button class="link-chip" type="button" data-link="s2-mech-2" data-color="--accent-2">→ Gov. Control</button>
+                  </span>
+                </div>
               </li>
               <li>
-                Eligibility rules (who can verify vs must train)
-                <span class="link-chips">
-                  <button class="link-chip" type="button" data-link="s2-mech-1" data-color="--accent-2">→ Gov. Control</button>
-                </span>
+                <div class="node">
+                  <span class="node-text">Eligibility rules (who can verify vs must train)</span>
+                  <span class="link-chips">
+                    <button class="link-chip" type="button" data-link="s2-mech-1" data-color="--accent-2">→ Gov. Control</button>
+                  </span>
+                </div>
               </li>
-              <li>Reassignment flow (train only when needed)</li>
+              <li id="s1-feat-3">
+                <div class="node">
+                  <span class="node-text">Reassignment flow (train only when needed)</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -66,8 +74,16 @@
           <div class="stage mechanism">
             <div class="label">Mechanism <span class="badge">how it works</span></div>
             <ul>
-              <li>Verify what staff already know before assigning training</li>
-              <li>Identify and target genuine knowledge gaps</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Verify what staff already know before assigning training</span>
+                </div>
+              </li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Identify and target genuine knowledge gaps</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -80,8 +96,16 @@
           <div class="stage valueprop">
             <div class="label">Value Props <span class="badge">experienced gain</span></div>
             <ul>
-              <li>Only pay for training staff actually need</li>
-              <li>Avoid blanket retraining while maintaining assurance</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Only pay for training staff actually need</span>
+                </div>
+              </li>
+              <li id="s1-valueprop-2">
+                <div class="node">
+                  <span class="node-text">Avoid blanket retraining while maintaining assurance</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -94,7 +118,11 @@
           <div class="stage benefit">
             <div class="label">Benefit <span class="badge">business impact</span></div>
             <ul>
-              <li>Reduced governance and compliance costs without increasing risk</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Reduced governance and compliance costs without increasing risk</span>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -111,13 +139,23 @@
           <div class="stage features">
             <div class="label">Features <span class="badge">what exists</span></div>
             <ul>
-              <li>Configurable pass marks and thresholds</li>
-              <li>Assessment depth controls (question bank size / selection)</li>
               <li>
-                LO / complexity tagging + audit-ready reporting
-                <span class="link-chips">
-                  <button class="link-chip" type="button" data-link="s3-mech-1" data-color="--accent-3">→ Op. Efficiency</button>
-                </span>
+                <div class="node">
+                  <span class="node-text">Configurable pass marks and thresholds</span>
+                </div>
+              </li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Assessment depth controls (question bank size / selection)</span>
+                </div>
+              </li>
+              <li>
+                <div class="node">
+                  <span class="node-text">LO / complexity tagging + audit-ready reporting</span>
+                  <span class="link-chips">
+                    <button class="link-chip" type="button" data-link="s3-mech-2" data-color="--accent-3">→ Op. Efficiency</button>
+                  </span>
+                </div>
               </li>
             </ul>
           </div>
@@ -131,8 +169,19 @@
           <div class="stage mechanism">
             <div class="label">Mechanism <span class="badge">how it works</span></div>
             <ul>
-              <li id="s2-mech-1">Set pass marks, depth, and eligibility to match organisational risk</li>
-              <li id="s2-mech-2">Generate defensible evidence of competence (not just completion)</li>
+              <li id="s2-mech-1">
+                <div class="node">
+                  <span class="node-text">Set pass marks, depth, and eligibility to match organisational risk</span>
+                </div>
+              </li>
+              <li id="s2-mech-2">
+                <div class="node">
+                  <span class="node-text">Generate defensible evidence of competence (not just completion)</span>
+                  <span class="link-chips">
+                    <button class="link-chip" type="button" data-link="s1-valueprop-2" data-color="--accent-1">→ Cost Efficiency</button>
+                  </span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -145,8 +194,16 @@
           <div class="stage valueprop">
             <div class="label">Value Props <span class="badge">experienced gain</span></div>
             <ul>
-              <li>Stay in control with policy-aligned thresholds</li>
-              <li>Make defensible training decisions aligned to risk tolerance</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Stay in control with policy-aligned thresholds</span>
+                </div>
+              </li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Make defensible training decisions aligned to risk tolerance</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -159,7 +216,11 @@
           <div class="stage benefit">
             <div class="label">Benefit <span class="badge">business impact</span></div>
             <ul>
-              <li>Defensible training decisions aligned to organisational risk tolerance</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Defensible training decisions aligned to organisational risk tolerance</span>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -176,9 +237,24 @@
           <div class="stage features">
             <div class="label">Features <span class="badge">what exists</span></div>
             <ul>
-              <li>Automated assignment + re-assignment</li>
-              <li>Completion tracking + staff performance views</li>
-              <li>Reporting exports / payroll integration</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Automated assignment + re-assignment</span>
+                </div>
+              </li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Completion tracking + staff performance views</span>
+                </div>
+              </li>
+              <li id="s3-feat-3">
+                <div class="node">
+                  <span class="node-text">Reporting exports / payroll integration</span>
+                  <span class="link-chips">
+                    <button class="link-chip" type="button" data-link="s2-mech-2" data-color="--accent-2">→ Gov. Control</button>
+                  </span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -191,8 +267,19 @@
           <div class="stage mechanism">
             <div class="label">Mechanism <span class="badge">how it works</span></div>
             <ul>
-              <li id="s3-mech-1">Automate assignment, tracking, and evidence generation</li>
-              <li>Reduce manual chasing and reporting overhead</li>
+              <li id="s3-mech-1">
+                <div class="node">
+                  <span class="node-text">Automate assignment, tracking, and evidence generation</span>
+                  <span class="link-chips">
+                    <button class="link-chip" type="button" data-link="s1-feat-3" data-color="--accent-1">→ Cost Efficiency</button>
+                  </span>
+                </div>
+              </li>
+              <li id="s3-mech-2">
+                <div class="node">
+                  <span class="node-text">Reduce manual chasing and reporting overhead</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -205,8 +292,16 @@
           <div class="stage valueprop">
             <div class="label">Value Props <span class="badge">experienced gain</span></div>
             <ul>
-              <li>Redirect staff time to higher-value activities</li>
-              <li>No added operational complexity to adopt KV</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">Redirect staff time to higher-value activities</span>
+                </div>
+              </li>
+              <li>
+                <div class="node">
+                  <span class="node-text">No added operational complexity to adopt KV</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -219,7 +314,11 @@
           <div class="stage benefit">
             <div class="label">Benefit <span class="badge">business impact</span></div>
             <ul>
-              <li>More staff capacity for high-impact work (with less admin overhead)</li>
+              <li>
+                <div class="node">
+                  <span class="node-text">More staff capacity for high-impact work (with less admin overhead)</span>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
