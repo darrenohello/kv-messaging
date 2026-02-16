@@ -20,9 +20,15 @@
         <span class="pill"><span class="dot" style="background:var(--accent-1)"></span>Cost Efficiency</span>
         <span class="pill"><span class="dot" style="background:var(--accent-2)"></span>Governance Control</span>
         <span class="pill"><span class="dot" style="background:var(--accent-3)"></span>Operational Efficiency</span>
+        <label class="pill pill-toggle">
+          <input type="checkbox" id="crosslinks-toggle" checked aria-label="Show cross-links between streams" />
+          <span>Show cross-links</span>
+        </label>
       </div>
     </header>
 
+    <div class="grid-wrapper">
+      <svg class="connectors" id="connectors" aria-hidden="true"></svg>
     <section class="grid">
       <!-- STREAM 1 -->
       <article class="stream" style="--accent: var(--accent-1);">
@@ -35,8 +41,18 @@
           <div class="stage features">
             <div class="label">Features <span class="badge">what exists</span></div>
             <ul>
-              <li>KV assessments (assessment-first option)</li>
-              <li>Eligibility rules (who can verify vs must train)</li>
+              <li>
+                KV assessments (assessment-first option)
+                <span class="link-chips">
+                  <button class="link-chip" type="button" data-link="s2-mech-2" data-color="--accent-2">→ Gov. Control</button>
+                </span>
+              </li>
+              <li>
+                Eligibility rules (who can verify vs must train)
+                <span class="link-chips">
+                  <button class="link-chip" type="button" data-link="s2-mech-1" data-color="--accent-2">→ Gov. Control</button>
+                </span>
+              </li>
               <li>Reassignment flow (train only when needed)</li>
             </ul>
           </div>
@@ -97,7 +113,12 @@
             <ul>
               <li>Configurable pass marks and thresholds</li>
               <li>Assessment depth controls (question bank size / selection)</li>
-              <li>LO / complexity tagging + audit-ready reporting</li>
+              <li>
+                LO / complexity tagging + audit-ready reporting
+                <span class="link-chips">
+                  <button class="link-chip" type="button" data-link="s3-mech-1" data-color="--accent-3">→ Op. Efficiency</button>
+                </span>
+              </li>
             </ul>
           </div>
 
@@ -110,8 +131,8 @@
           <div class="stage mechanism">
             <div class="label">Mechanism <span class="badge">how it works</span></div>
             <ul>
-              <li>Set pass marks, depth, and eligibility to match organisational risk</li>
-              <li>Generate defensible evidence of competence (not just completion)</li>
+              <li id="s2-mech-1">Set pass marks, depth, and eligibility to match organisational risk</li>
+              <li id="s2-mech-2">Generate defensible evidence of competence (not just completion)</li>
             </ul>
           </div>
 
@@ -170,7 +191,7 @@
           <div class="stage mechanism">
             <div class="label">Mechanism <span class="badge">how it works</span></div>
             <ul>
-              <li>Automate assignment, tracking, and evidence generation</li>
+              <li id="s3-mech-1">Automate assignment, tracking, and evidence generation</li>
               <li>Reduce manual chasing and reporting overhead</li>
             </ul>
           </div>
@@ -204,12 +225,12 @@
         </div>
       </article>
     </section>
+    </div>
 
     <footer>
-      Tip: if you want to show cross-links (e.g., one feature supports two mechanisms), add small “chips” under each bullet
-      and use <code class="k">data-link</code> attributes + SVG connectors. But keeping each stream mostly self-contained
-      makes the causality easier to read.
+      Cross-links show where one feature or mechanism supports another stream. Toggle above to show or hide them.
     </footer>
   </div>
+  <script src="crosslinks.js"></script>
 </body>
 </html>
