@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KV Value Mapping — Feature → Mechanism → Value Prop → Benefit</title>
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --panel:#12141a;
+      --panel-2:#0f1116;
+      --text:#e9eef6;
+      --muted:#a8b2c3;
+
+      --line:#2a2f3a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+      --accent-1:#8be9fd; /* stream 1 */
+      --accent-2:#a1ffce; /* stream 2 */
+      --accent-3:#ff79c6; /* stream 3 */
+
+      --radius:16px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(139,233,253,.12), transparent 60%),
+                  radial-gradient(900px 600px at 90% 30%, rgba(255,121,198,.10), transparent 55%),
+                  radial-gradient(900px 600px at 60% 95%, rgba(161,255,206,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.35;
+    }
+
+    .wrap{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 18px 60px;
+    }
+
+    header{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+      justify-content:space-between;
+      margin-bottom: 18px;
+    }
+
+    h1{
+      font-size: clamp(22px, 2.3vw, 34px);
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+
+    .sub{
+      margin:6px 0 0;
+      color:var(--muted);
+      max-width: 72ch;
+    }
+
+    .legend{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color:var(--muted);
+      font-size: 13px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 999px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:99px;
+      box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr;}
+    }
+
+    .stream{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 120px),
+                  var(--panel);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .stream::before{
+      content:"";
+      position:absolute;
+      top:0; left:0; right:0;
+      height: 4px;
+      background: var(--accent, #fff);
+    }
+
+    .stream-head{
+      padding: 18px 18px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .stream-title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: .01em;
+    }
+
+    .stream-tag{
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .chain{
+      padding: 0 18px 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .stage{
+      position:relative;
+      padding: 14px 14px 12px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .stage .label{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stage .label .badge{
+      letter-spacing: normal;
+      text-transform:none;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+    }
+
+    ul{
+      margin:0;
+      padding-left: 18px;
+      color: var(--text);
+    }
+
+    li{
+      margin: 7px 0;
+    }
+
+    .stage.features li{color: rgba(233,238,246,.92)}
+    .stage.mechanism li{color: rgba(233,238,246,.95)}
+    .stage.valueprop li{color: rgba(233,238,246,.98)}
+    .stage.benefit li{font-weight:600}
+
+    .arrow{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height: 22px;
+      color: rgba(233,238,246,.55);
+      user-select:none;
+    }
+
+    .arrow svg{
+      width: 20px;
+      height: 20px;
+      opacity: .75;
+    }
+
+    /* accent borders per stage */
+    .stage{
+      box-shadow: 0 6px 16px rgba(0,0,0,.28);
+    }
+
+    .stream .stage{border-left: 4px solid rgba(255,255,255,.06)}
+    .stream .stage.features{border-left-color: color-mix(in srgb, var(--accent) 55%, transparent)}
+    .stream .stage.mechanism{border-left-color: color-mix(in srgb, var(--accent) 65%, transparent)}
+    .stream .stage.valueprop{border-left-color: color-mix(in srgb, var(--accent) 80%, transparent)}
+    .stream .stage.benefit{border-left-color: var(--accent)}
+
+    /* small helper footer */
+    footer{
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    code.k{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: rgba(233,238,246,.92);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>KV Value Mapping</h1>
+        <p class="sub">
+          Feature → Mechanism → Value Proposition → Benefit (three “value streams” so the logic stays clean and causal).
+        </p>
+      </div>
+      <div class="legend" aria-label="Legend">
+        <span class="pill"><span class="dot" style="background:var(--accent-1)"></span>Cost Efficiency</span>
+        <span class="pill"><span class="dot" style="background:var(--accent-2)"></span>Governance Control</span>
+        <span class="pill"><span class="dot" style="background:var(--accent-3)"></span>Operational Efficiency</span>
+      </div>
+    </header>
+
+    <section class="grid">
+      <!-- STREAM 1 -->
+      <article class="stream" style="--accent: var(--accent-1);">
+        <div class="stream-head">
+          <h2 class="stream-title">Stream 1: Cost Efficiency</h2>
+          <span class="stream-tag">Spend less — safely</span>
+        </div>
+
+        <div class="chain">
+          <div class="stage features">
+            <div class="label">Features <span class="badge">what exists</span></div>
+            <ul>
+              <li>KV assessments (assessment-first option)</li>
+              <li>Eligibility rules (who can verify vs must train)</li>
+              <li>Reassignment flow (train only when needed)</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage mechanism">
+            <div class="label">Mechanism <span class="badge">how it works</span></div>
+            <ul>
+              <li>Verify what staff already know before assigning training</li>
+              <li>Identify and target genuine knowledge gaps</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage valueprop">
+            <div class="label">Value Props <span class="badge">experienced gain</span></div>
+            <ul>
+              <li>Only pay for training staff actually need</li>
+              <li>Avoid blanket retraining while maintaining assurance</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage benefit">
+            <div class="label">Benefit <span class="badge">business impact</span></div>
+            <ul>
+              <li>Reduced governance and compliance costs without increasing risk</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STREAM 2 -->
+      <article class="stream" style="--accent: var(--accent-2);">
+        <div class="stream-head">
+          <h2 class="stream-title">Stream 2: Governance Control</h2>
+          <span class="stream-tag">Risk tolerance stays yours</span>
+        </div>
+
+        <div class="chain">
+          <div class="stage features">
+            <div class="label">Features <span class="badge">what exists</span></div>
+            <ul>
+              <li>Configurable pass marks and thresholds</li>
+              <li>Assessment depth controls (question bank size / selection)</li>
+              <li>LO / complexity tagging + audit-ready reporting</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage mechanism">
+            <div class="label">Mechanism <span class="badge">how it works</span></div>
+            <ul>
+              <li>Set pass marks, depth, and eligibility to match organisational risk</li>
+              <li>Generate defensible evidence of competence (not just completion)</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage valueprop">
+            <div class="label">Value Props <span class="badge">experienced gain</span></div>
+            <ul>
+              <li>Stay in control with policy-aligned thresholds</li>
+              <li>Make defensible training decisions aligned to risk tolerance</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage benefit">
+            <div class="label">Benefit <span class="badge">business impact</span></div>
+            <ul>
+              <li>Defensible training decisions aligned to organisational risk tolerance</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STREAM 3 -->
+      <article class="stream" style="--accent: var(--accent-3);">
+        <div class="stream-head">
+          <h2 class="stream-title">Stream 3: Operational Efficiency</h2>
+          <span class="stream-tag">Less admin drag</span>
+        </div>
+
+        <div class="chain">
+          <div class="stage features">
+            <div class="label">Features <span class="badge">what exists</span></div>
+            <ul>
+              <li>Automated assignment + re-assignment</li>
+              <li>Completion tracking + staff performance views</li>
+              <li>Reporting exports / payroll integration</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage mechanism">
+            <div class="label">Mechanism <span class="badge">how it works</span></div>
+            <ul>
+              <li>Automate assignment, tracking, and evidence generation</li>
+              <li>Reduce manual chasing and reporting overhead</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage valueprop">
+            <div class="label">Value Props <span class="badge">experienced gain</span></div>
+            <ul>
+              <li>Redirect staff time to higher-value activities</li>
+              <li>No added operational complexity to adopt KV</li>
+            </ul>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="stage benefit">
+            <div class="label">Benefit <span class="badge">business impact</span></div>
+            <ul>
+              <li>More staff capacity for high-impact work (with less admin overhead)</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Tip: if you want to show cross-links (e.g., one feature supports two mechanisms), add small “chips” under each bullet
+      and use <code class="k">data-link</code> attributes + SVG connectors. But keeping each stream mostly self-contained
+      makes the causality easier to read.
+    </footer>
+  </div>
+</body>
+</html>
